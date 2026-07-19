@@ -2,91 +2,56 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAMKAR Command Center</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
+    <title>DAMKAR COMMAND CENTER</title>
     <style>
-        :root { --navy: #1a2a6c; --fire-red: #b21f1f; --gold: #fdbb2d; }
-        body { font-family: 'Inter', sans-serif; margin: 0; background: #f0f2f5; display: flex; flex-direction: column; min-height: 100vh; }
-        
-        /* Header Mewah */
-        header { background: linear-gradient(135deg, var(--navy), var(--fire-red)); color: white; padding: 25px; text-align: center; font-size: 28px; font-weight: 800; letter-spacing: 1px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        
-        .main-wrapper { display: flex; flex-wrap: wrap; padding: 20px; gap: 20px; }
-        
-        /* Sidebar Mewah */
-        .sidebar { flex: 1; min-width: 320px; background: white; padding: 30px; border-radius: 15px; border-left: 8px solid var(--navy); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
-        
-        /* Konten */
-        .content { flex: 2; min-width: 320px; display: flex; flex-direction: column; gap: 20px; }
-        
-        /* Form & Input */
-        input, select, textarea { width: 100%; padding: 14px; margin: 10px 0; border: 2px solid #eee; border-radius: 8px; box-sizing: border-box; transition: 0.3s; }
-        input:focus { border-color: var(--navy); outline: none; }
-        button { width: 100%; padding: 15px; background: var(--navy); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        button:hover { background: var(--fire-red); transform: translateY(-2px); }
-
-        .card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .btn-pdf { background: #27ae60; margin-top: 15px; }
+        body { font-family: sans-serif; background: #f4f4f9; padding: 20px; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); max-width: 400px; margin: auto; }
+        input, select, textarea, button { width: 100%; padding: 10px; margin: 10px 0; box-sizing: border-box; }
+        button { background: #c0392b; color: white; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
-
-    <header>DAMKAR COMMAND CENTER</header>
-
-    <div class="main-wrapper">
-        <div class="sidebar">
-            <h2 style="color: var(--navy);">Data Operasi</h2>
-            <form id="inputForm">
-                <input type="text" id="petugas" placeholder="Nama Petugas" required>
-                <input type="password" id="pin" placeholder="PIN Akses" maxlength="6" required>
-                <select id="kategori">
-                    <option>Evakuasi Cincin</option><option>Water Rescue</option>
-                    <option>Vertical Rescue</option><option>Animal Rescue</option>
-                    <option>Vehicle Lockout</option><option>Life & Property</option>
-                </select>
-                <textarea id="uraian" placeholder="Uraian Kejadian" rows="3"></textarea>
-                <button type="submit">KIRIM LAPORAN</button>
-            </form>
-        </div>
-
-        <div class="content" id="printableArea">
-            <div class="card"><canvas id="rescueChart" height="100"></canvas></div>
-            <div class="card">
-                <h3>Statistik Penyelamatan</h3>
-                <table id="dataTable" style="width:100%; border-collapse: collapse;">
-                    <tr><th>Program</th><th>Persentase</th></tr>
-                </table>
-                <button class="btn-pdf" onclick="exportToPDF()">📥 EKSPOR PDF RESMI</button>
-            </div>
-        </div>
+    <div class="card">
+        <h2>Input Operasi</h2>
+        <form id="formInput">
+            <input type="text" id="petugas" placeholder="Nama Petugas" required>
+            <input type="password" id="pin" placeholder="PIN (123456)" required>
+            <select id="kategori">
+                <option>Evakuasi Cincin</option><option>Water Rescue</option>
+                <option>Animal Rescue</option><option>Life & Property</option>
+            </select>
+            <textarea id="uraian" placeholder="Uraian Kejadian"></textarea>
+            <button type="submit">KIRIM DATA</button>
+        </form>
     </div>
 
     <script>
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyvhccrKBHmC8wKN82TfdL14lo9lnQHxOAsPWIK5a54uOJuerGtvy3_xAAG996bjeCX/exec';
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbweWqUujmpWu3RpP80oMb2J7zztA-zxaduFRDJjfYZLDoj8PtofwGUHnaH5h8HjLIjq/exec";
 
-        document.getElementById('inputForm').addEventListener('submit', async (e) => {
+        document.getElementById("formInput").addEventListener("submit", function(e) {
             e.preventDefault();
-            // Verifikasi PIN (PIN Statis: 123456 - bisa Anda sesuaikan)
-            if(document.getElementById('pin').value !== "123456") {
-                alert("PIN Salah!"); return;
-            }
-            
             const data = {
-                petugas: document.getElementById('petugas').value,
-                kategori: document.getElementById('kategori').value,
-                uraian: document.getElementById('uraian').value
+                petugas: document.getElementById("petugas").value,
+                pin: document.getElementById("pin").value,
+                kategori: document.getElementById("kategori").value,
+                uraian: document.getElementById("uraian").value
             };
-            
-            await fetch(WEB_APP_URL, { method: 'POST', body: JSON.stringify(data) });
-            alert('Laporan berhasil terkirim ke Command Center!');
-            location.reload();
-        });
 
-        // ... (Fungsi init dan exportToPDF tetap sama seperti sebelumnya)
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(res => {
+                if(res.status === "sukses") {
+                    alert("Data berhasil tersimpan!");
+                    location.reload();
+                } else {
+                    alert("Gagal: " + res.message);
+                }
+            })
+            .catch(err => alert("Koneksi Error: " + err));
+        });
     </script>
 </body>
 </html>
