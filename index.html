@@ -54,6 +54,44 @@
             .main-container { grid-template-columns: 1fr; }
         }
         
+        /* Brand / Logo Header di Sidebar secara Profesional */
+        .sidebar-brand {
+            text-align: center;
+            padding: 5px 0 15px 0;
+            border-bottom: 2px solid #f1f2f6;
+            margin-bottom: 20px;
+        }
+
+        .sidebar-brand img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-brand img:hover {
+            transform: scale(1.05);
+        }
+
+        .sidebar-brand h2 {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--navy);
+            margin: 12px 0 4px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+        }
+
+        .sidebar-brand span {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--fire-red);
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
         /* Card Panel */
         .card { 
             background: var(--card-bg); 
@@ -151,6 +189,13 @@
         <!-- Sidebar Input Form -->
         <div class="sidebar">
             <div class="card">
+                <!-- Brand & Logo Damkar Kota Palu -->
+                <div class="sidebar-brand">
+                    <img src="https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&q=80&w=200" alt="Logo Damkar Kota Palu" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/9/9b/Coat_of_arms_of_Palu.png'">
+                    <h2>Dinas Pemadam Kebakaran<br>dan Penyelamatan</h2>
+                    <span>Kota Palu</span>
+                </div>
+
                 <h3>Form Input Operasi</h3>
                 <form id="inputForm">
                     <label>Nama Petugas Komandan:</label>
@@ -207,8 +252,7 @@
     </div>
 
     <script>
-        // Ganti dengan URL Web App Google Apps Script Anda yang valid
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz_CP6i6WUNIoBmxVPscq9PHcy-xaQDSANCM5FaXw4mi1jC2LDS8BXpFm5ZSYZQ9LB4/exec';
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbziZx5yveroaz6tWyQO-ku3jNq-e_9e0XI0NUAwsmCP_ErRdW6RcrBXkhFnC_V1vhko/exec';
         let rawData = [];
         let myChart = null;
 
@@ -217,7 +261,6 @@
                 const res = await fetch(WEB_APP_URL);
                 rawData = await res.json();
                 
-                // Set filter ke bulan saat ini secara otomatis
                 const currentMonth = new Date().getMonth() + 1;
                 document.getElementById('bulanFilter').value = currentMonth;
                 
@@ -228,7 +271,6 @@
         }
 
         function updateDashboard() {
-            // Konversi nilai select dan properti item menjadi integer agar sinkron 100%
             const selectedBulan = parseInt(document.getElementById('bulanFilter').value, 10);
             
             const filtered = rawData.filter(item => {
@@ -238,11 +280,9 @@
 
             const labels = ['Evakuasi Cincin', 'Water Rescue', 'Vertical Rescue', 'Animal Rescue', 'Vehicle Lockout', 'Life & Property'];
             
-            // Pencocokan kategori secara presisi
             const counts = labels.map(l => filtered.filter(x => x.kategori && x.kategori.trim() === l).length);
             const maxVal = Math.max(...counts);
 
-            // Render Tabel Statistik dengan Feedback Icon Top Performance
             const table = document.getElementById('logTable');
             table.innerHTML = `<tr><th>Program</th><th>Jumlah Operasi</th><th>Indikator Kinerja</th></tr>`;
             
@@ -255,7 +295,6 @@
                 </tr>`;
             });
 
-            // Render Grafik Batang (Bar Chart)
             const ctx = document.getElementById('monthlyChart').getContext('2d');
             if (myChart) myChart.destroy();
 
@@ -281,7 +320,6 @@
             });
         }
 
-        // Handle Pengiriman Form ke Google Sheets
         document.getElementById('inputForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = e.target.querySelector('button');
@@ -317,7 +355,6 @@
             }
         });
 
-        // Fungsi Ekspor Laporan Resmi ke PDF
         async function exportToPDF() {
             const { jsPDF } = window.jspdf;
             const element = document.querySelector("#printableArea");
