@@ -207,8 +207,8 @@
     </div>
 
     <script>
-        // URL Google Apps Script yang terhubung ke Sheet 1ZiH9hQOlDTrA-cjECWYmO3-JrghqXFs2iGixe21UVb0
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzORUBA4RwkVGAAktfyt6mDp64hJsXEYAbPXSN1iRoVUTTWnelslgXQc1W921E_8hUH/exec';
+        // Ganti dengan URL Web App Google Apps Script Anda yang valid
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbz_CP6i6WUNIoBmxVPscq9PHcy-xaQDSANCM5FaXw4mi1jC2LDS8BXpFm5ZSYZQ9LB4/exec';
         let rawData = [];
         let myChart = null;
 
@@ -217,22 +217,29 @@
                 const res = await fetch(WEB_APP_URL);
                 rawData = await res.json();
                 
-                // Otomatis set filter ke bulan saat ini jika ada datanya
+                // Set filter ke bulan saat ini secara otomatis
                 const currentMonth = new Date().getMonth() + 1;
                 document.getElementById('bulanFilter').value = currentMonth;
                 
                 updateDashboard();
             } catch (err) {
-                console.error("Gagal memuat data:", err);
+                console.error("Gagal memuat data dari Spreadsheet:", err);
             }
         }
 
         function updateDashboard() {
-            const bulan = parseInt(document.getElementById('bulanFilter').value);
-            const filtered = rawData.filter(item => parseInt(item.bulan) === bulan);
+            // Konversi nilai select dan properti item menjadi integer agar sinkron 100%
+            const selectedBulan = parseInt(document.getElementById('bulanFilter').value, 10);
+            
+            const filtered = rawData.filter(item => {
+                const itemBulan = parseInt(item.bulan, 10);
+                return itemBulan === selectedBulan;
+            });
+
             const labels = ['Evakuasi Cincin', 'Water Rescue', 'Vertical Rescue', 'Animal Rescue', 'Vehicle Lockout', 'Life & Property'];
             
-            const counts = labels.map(l => filtered.filter(x => x.kategori === l).length);
+            // Pencocokan kategori secara presisi
+            const counts = labels.map(l => filtered.filter(x => x.kategori && x.kategori.trim() === l).length);
             const maxVal = Math.max(...counts);
 
             // Render Tabel Statistik dengan Feedback Icon Top Performance
@@ -315,7 +322,6 @@
             const { jsPDF } = window.jspdf;
             const element = document.querySelector("#printableArea");
             
-            // Sembunyikan elemen select filter saat di-capture agar bersih
             const filterEl = document.querySelector('.filter-container');
             filterEl.style.display = 'none';
 
@@ -332,7 +338,7 @@
                 pdf.addImage(imgData, 'PNG', 10, 25, pdfWidth, pdfHeight);
                 pdf.save("Laporan_Resmi_DAMKAR.pdf");
                 
-                filterEl.style.display = 'flex'; // Tampilkan kembali filter
+                filterEl.style.display = 'flex';
             });
         }
 
