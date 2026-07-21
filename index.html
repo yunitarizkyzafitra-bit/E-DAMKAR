@@ -30,6 +30,7 @@
             -webkit-text-size-adjust: 100%;
         }
         
+        /* Header Mewah */
         header { 
             background: linear-gradient(135deg, var(--navy), var(--fire-red)); 
             color: white; 
@@ -46,6 +47,7 @@
             header { font-size: 26px; padding: 25px; }
         }
 
+        /* Layout Utama Grid Responsif (Android, iPhone, PC) */
         .main-container { 
             display: grid; 
             grid-template-columns: 1fr; 
@@ -66,6 +68,7 @@
             }
         }
         
+        /* Brand / Logo Header di Sidebar secara Profesional */
         .sidebar-brand {
             text-align: center;
             padding: 5px 0 15px 0;
@@ -74,11 +77,9 @@
         }
 
         .sidebar-brand img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 2px solid var(--navy);
+            width: 75px;
+            height: 75px;
+            object-fit: contain;
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.12));
             transition: transform 0.3s ease;
         }
@@ -105,6 +106,7 @@
             text-transform: uppercase;
         }
 
+        /* Card Panel */
         .card { 
             background: var(--card-bg); 
             padding: 20px; 
@@ -127,6 +129,7 @@
             padding-bottom: 10px;
         }
         
+        /* Form & Input Premium (Optimized Touch target untuk mobile) */
         label { font-size: 13px; font-weight: bold; color: #555; display: block; margin-top: 10px; }
         input, select, textarea { 
             width: 100%; 
@@ -135,7 +138,7 @@
             border: 1px solid #dcdde1; 
             border-radius: 8px; 
             box-sizing: border-box; 
-            font-size: 16px; 
+            font-size: 16px; /* Mencegah auto-zoom pada iOS */
             transition: all 0.3s ease;
             background-color: #fff;
         }
@@ -160,6 +163,7 @@
         }
         button.btn-submit:hover { background: #a93226; transform: translateY(-2px); }
 
+        /* Floating WhatsApp Center Button */
         .whatsapp-float {
             position: fixed;
             bottom: 20px;
@@ -188,6 +192,7 @@
             fill: white;
         }
 
+        /* Tabel Estetik Responsif */
         .table-responsive {
             width: 100%;
             overflow-x: auto;
@@ -198,6 +203,7 @@
         th { background: #f8f9fa; color: var(--navy); font-weight: 700; }
         tr:nth-child(even) { background-color: #fafbfc; }
 
+        /* Badge Top Performance */
         .top-badge { 
             background: var(--accent-gold); 
             color: #000; 
@@ -209,6 +215,7 @@
             box-shadow: 0 2px 5px rgba(241, 196, 15, 0.4);
         }
 
+        /* Tombol Ekspor PDF */
         .btn-pdf { 
             background: #27ae60; 
             color: white; 
@@ -239,16 +246,17 @@
         <!-- Sidebar Input Form -->
         <div class="sidebar">
             <div class="card">
+                <!-- Brand & Logo Damkar Kota Palu yang Disematkan Profesional -->
                 <div class="sidebar-brand">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWAJIh6gzaP7gmAVmyj-Kbyzf2weFEkOqsBaI-m7EVuA&s" alt="Logo Damkar Kota Palu" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/9/9b/Coat_of_arms_of_Palu.png'">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/Coat_of_arms_of_Palu.png" alt="Logo Damkar Kota Palu" onerror="this.src='https://cdn-icons-png.flaticon.com/512/2965/2965879.png'">
                     <h2>Dinas Pemadam Kebakaran<br>dan Penyelamatan</h2>
                     <span>Kota Palu</span>
                 </div>
 
                 <h3>Form Input Operasi</h3>
                 <form id="inputForm">
-                    <label>Email Petugas / Komandan:</label>
-                    <input type="email" id="petugas" placeholder="contoh@domain.com" required>
+                    <label>Nama Petugas Komandan:</label>
+                    <input type="text" id="petugas" placeholder="Contoh: Komandan Budi" required>
                     
                     <label>PIN Akses Pengiriman:</label>
                     <input type="password" id="pin" placeholder="Masukkan PIN Rahasia" maxlength="6" required>
@@ -309,7 +317,7 @@
     </a>
 
     <script>
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw599e3QVlVlMVSaASr1eO_Tq2qPufgYyLgVfOXKTMFBnWeaF4K_ooCz0zZNPTZU937/exec';
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwj-RiS_KIT7DPOYlom9dEcPxsdynMqfT-yKj4OffpDD7XhkS-tlnBnZRP7Ysau4DZC/exec';
         let rawData = [];
         let myChart = null;
 
@@ -355,6 +363,7 @@
             const ctx = document.getElementById('monthlyChart').getContext('2d');
             if (myChart) myChart.destroy();
 
+            // Transisi halus (Smooth transition animation) pada Grafik Chart.js
             myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
