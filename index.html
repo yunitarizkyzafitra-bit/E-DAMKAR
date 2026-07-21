@@ -318,9 +318,8 @@
                         <button type="button" class="toggle-pin-btn" id="togglePinBtn" onclick="togglePinVisibility()" title="Tampilkan/Sembunyikan PIN">👁️</button>
                     </div>
                     
-                    <label>Kategori Penyelamatan 🥇 (Penghargaan Tertinggi):</label>
+                    <label>Kategori Penyelamatan:</label>
                     <select id="kategori">
-                        <option value="Life & Property">🥇 Life & Property (Prioritas Tertinggi)</option>
                         <option value="Evakuasi Cincin">Evakuasi Cincin</option>
                         <option value="Water Rescue">Water Rescue</option>
                         <option value="Vertical Rescue">Vertical Rescue</option>
@@ -411,7 +410,7 @@
 
     <script>
         // Interkoneksi Google Apps Script (GS) - Masukkan URL deployment web app Anda di sini
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby-TshchjSZryY_9jbhtMhjoaE1_000uzTSUgE2kiQRvYDNxdilrzn8lwaPdl8DFDhD/exec';
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxw219nynLUfI_fuUP76CGetsDrYS5wM3hGlZDENCd62eSOIplCoa2LJn9QH1c6unwP/exec';
         let rawData = [];
         let myChart = null;
 
@@ -450,7 +449,7 @@
             const selectedBulan = parseInt(document.getElementById('bulanFilter').value, 10);
             const filtered = rawData.filter(item => parseInt(item.bulan, 10) === selectedBulan);
 
-            const labels = ['Life & Property', 'Evakuasi Cincin', 'Water Rescue', 'Vertical Rescue', 'Animal Rescue', 'Vehicle Lockout'];
+            const labels = ['Evakuasi Cincin', 'Water Rescue', 'Vertical Rescue', 'Animal Rescue', 'Vehicle Lockout'];
             const counts = labels.map(l => filtered.filter(x => x.kategori && x.kategori.trim() === l).length);
 
             const ctx = document.getElementById('monthlyChart').getContext('2d');
