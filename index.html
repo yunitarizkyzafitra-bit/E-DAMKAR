@@ -16,8 +16,8 @@
             --dark-bg: #1e272e;
             --card-bg: #ffffff;
             --accent-gold: #f1c40f;
-            --whatsapp-green: #25d366; /* Hijau WhatsApp Tetap Dipertahankan */
-            --theme-blue: #1a2a6c; /* Warna Biru Profesional untuk Tombol PDF */
+            --whatsapp-green: #25d366; /* Warna Hijau WhatsApp Tetap Dipertahankan */
+            --theme-blue: #1a2a6c; /* Warna Biru Sesuai Sidebar untuk Tombol PDF */
         }
 
         body { 
@@ -230,7 +230,7 @@
             font-weight: 600;
         }
 
-        /* Floating WhatsApp Center (Warna Hijau Dipertahankan) */
+        /* Floating WhatsApp Center (Tetap Hijau) */
         .whatsapp-float {
             position: fixed;
             bottom: 20px;
@@ -270,7 +270,7 @@
         th { background: #f8f9fa; color: var(--navy); font-weight: 700; }
         tr:nth-child(even) { background-color: #fafbfc; }
 
-        /* Tombol PDF (Warna Diubah Menjadi Biru Profesional) */
+        /* Tombol PDF (Warna Biru Sesuai Sidebar) */
         .btn-pdf { 
             background: var(--theme-blue); 
             color: white; 
@@ -284,7 +284,7 @@
             transition: background 0.3s; 
             font-size: 15px;
         }
-        .btn-pdf:hover { background: #121d4d; } /* Biru Lebih Gelap Saat Hover */
+        .btn-pdf:hover { background: #121d4d; }
 
         .filter-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
         @media (min-width: 576px) {
@@ -302,7 +302,6 @@
         <div class="sidebar">
             <div class="card">
                 <div class="sidebar-brand">
-                    <!-- Logo Resmi Damkar Kota Palu yang Terintegrasi -->
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWAJIh6gzaP7gmAVmyj-Kbyzf2weFEkOqsBaI-m7EVuA&s" alt="Logo Resmi Damkar Kota Palu" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/9/9b/Coat_of_arms_of_Palu.png'">
                     <h2>Dinas Pemadam Kebakaran<br>dan Penyelamatan</h2>
                     <span>Kota Palu</span>
@@ -354,4 +353,228 @@
                         <div class="gallery-caption">Evakuasi Cincin</div>
                     </div>
                     <div class="gallery-item">
-                        <img src="dok-4.jpeg" alt="Kebakaran Lahan Soekarno-Hatta" onerror="this.src='
+                        <img src="dok-4.jpeg" alt="Kebakaran Lahan Soekarno-Hatta" onerror="this.src='https://via.placeholder.com/150?text=Damkar+Palu'">
+                        <div class="gallery-caption">Kebakaran Lahan</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="dok-5.jpeg" alt="Evakuasi Biawak Alfamidi" onerror="this.src='https://via.placeholder.com/150?text=Damkar+Palu'">
+                        <div class="gallery-caption">Evakuasi Biawak</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="dok-6.jpeg" alt="Pemadaman BTN CPI Dayodara" onerror="this.src='https://via.placeholder.com/150?text=Damkar+Palu'">
+                        <div class="gallery-caption">Pemadaman BTN CPI</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Utama & Transparansi Data -->
+        <div class="content" id="printableArea">
+            <div class="card">
+                <div class="filter-container">
+                    <h3 style="margin:0; border:none;">Grafik Kinerja Bulanan</h3>
+                    <select id="bulanFilter" onchange="updateDashboard()">
+                        <option value="1">Januari</option><option value="2">Februari</option>
+                        <option value="3">Maret</option><option value="4">April</option>
+                        <option value="5">Mei</option><option value="6">Juni</option>
+                        <option value="7" selected>Juli</option><option value="8">Agustus</option>
+                        <option value="9">September</option><option value="10">Oktober</option>
+                        <option value="11">November</option><option value="12">Desember</option>
+                    </select>
+                </div>
+                <div style="position: relative; height: 260px; width: 100%;">
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Transparansi Log Data Live Spreadsheet -->
+            <div class="card">
+                <div class="filter-container">
+                    <h3>📊 Transparansi & Log Operasi Terhubung</h3>
+                    <input type="text" id="searchInput" placeholder="Cari data laporan..." onkeyup="renderTableAndStats()">
+                </div>
+                <div class="table-responsive">
+                    <table id="logTable">
+                        <tr><th>Waktu</th><th>Petugas</th><th>Kategori</th><th>Uraian Kejadian</th></tr>
+                    </table>
+                </div>
+                <button class="btn-pdf" onclick="exportToPDF()">📥 EKSPOR LAPORAN PDF RESMI</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tombol WhatsApp Center Profesional (Tetap Hijau) -->
+    <a href="https://wa.me/6281245678910?text=Halo%20Command%20Center%20Damkar%20Kota%20Palu,%20saya%20ingin%20melaporkan%20darurat%20penyelamatan." class="whatsapp-float" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+        <span>WhatsApp Center</span>
+    </a>
+
+    <script>
+        // Interkoneksi Google Apps Script (GS) - Masukkan URL deployment web app Anda di sini
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby-TshchjSZryY_9jbhtMhjoaE1_000uzTSUgE2kiQRvYDNxdilrzn8lwaPdl8DFDhD/exec';
+        let rawData = [];
+        let myChart = null;
+
+        function togglePinVisibility() {
+            const pinInput = document.getElementById('pin');
+            const toggleBtn = document.getElementById('togglePinBtn');
+            if (pinInput.type === 'password') {
+                pinInput.type = 'text';
+                toggleBtn.innerText = '🔒';
+            } else {
+                pinInput.type = 'password';
+                toggleBtn.innerText = '👁️';
+            }
+        }
+
+        async function init() {
+            try {
+                const res = await fetch(WEB_APP_URL);
+                rawData = await res.json();
+                
+                const currentMonth = new Date().getMonth() + 1;
+                document.getElementById('bulanFilter').value = currentMonth;
+                
+                updateDashboard();
+            } catch (err) {
+                console.error("Gagal menyinkronkan data spreadsheet:", err);
+            }
+        }
+
+        function updateDashboard() {
+            renderChart();
+            renderTableAndStats();
+        }
+
+        function renderChart() {
+            const selectedBulan = parseInt(document.getElementById('bulanFilter').value, 10);
+            const filtered = rawData.filter(item => parseInt(item.bulan, 10) === selectedBulan);
+
+            const labels = ['Life & Property', 'Evakuasi Cincin', 'Water Rescue', 'Vertical Rescue', 'Animal Rescue', 'Vehicle Lockout'];
+            const counts = labels.map(l => filtered.filter(x => x.kategori && x.kategori.trim() === l).length);
+
+            const ctx = document.getElementById('monthlyChart').getContext('2d');
+            if (myChart) myChart.destroy();
+
+            myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Total Operasi',
+                        data: counts,
+                        backgroundColor: '#c0392b',
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+                }
+            });
+        }
+
+        function renderTableAndStats() {
+            const selectedBulan = parseInt(document.getElementById('bulanFilter').value, 10);
+            const keyword = document.getElementById('searchInput').value.toLowerCase();
+            
+            const filtered = rawData.filter(item => {
+                const matchBulan = parseInt(item.bulan, 10) === selectedBulan;
+                const matchKeyword = !keyword || 
+                    item.petugas.toLowerCase().includes(keyword) || 
+                    item.kategori.toLowerCase().includes(keyword) || 
+                    item.uraian.toLowerCase().includes(keyword);
+                return matchBulan && matchKeyword;
+            });
+
+            const table = document.getElementById('logTable');
+            table.innerHTML = `<tr><th>Waktu</th><th>Petugas</th><th>Kategori</th><th>Uraian Kejadian</th></tr>`;
+            
+            if (filtered.length === 0) {
+                table.innerHTML += `<tr><td colspan="4" style="text-align:center; color:#888;">Tidak ada data laporan ditemukan.</td></tr>`;
+                return;
+            }
+
+            filtered.reverse().forEach(row => {
+                let formattedDate = row.timestamp;
+                try {
+                    const d = new Date(row.timestamp);
+                    if (!isNaN(d.getTime())) {
+                        formattedDate = d.toLocaleString('id-ID');
+                    }
+                } catch(e) {}
+
+                table.innerHTML += `<tr>
+                    <td style="font-size:12px; color:#555;">${formattedDate}</td>
+                    <td><strong>${row.petugas}</strong></td>
+                    <td><span style="background:#f1f2f6; padding:3px 8px; border-radius:4px; font-size:12px;">${row.kategori}</span></td>
+                    <td>${row.uraian}</td>
+                </tr>`;
+            });
+        }
+
+        document.getElementById('inputForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = e.target.querySelector('button');
+            submitBtn.disabled = true;
+            submitBtn.innerText = "MENGIRIM...";
+
+            const payload = {
+                petugas: document.getElementById('petugas').value,
+                pin: document.getElementById('pin').value,
+                kategori: document.getElementById('kategori').value,
+                uraian: document.getElementById('uraian').value
+            };
+
+            try {
+                const res = await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload)
+                });
+                const result = await res.json();
+                
+                if(result.status === "sukses") {
+                    alert("Laporan berhasil masuk ke spreadsheet secara sistematis!");
+                    location.reload();
+                } else {
+                    alert("Gagal: " + result.message);
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = "KIRIM LAPORAN";
+                }
+            } catch (err) {
+                alert("Kesalahan jaringan: " + err);
+                submitBtn.disabled = false;
+                submitBtn.innerText = "KIRIM LAPORAN";
+            }
+        });
+
+        async function exportToPDF() {
+            const { jsPDF } = window.jspdf;
+            const element = document.querySelector("#printableArea");
+            
+            const filterEl = document.querySelector('.filter-container');
+            if(filterEl) filterEl.style.display = 'none';
+
+            html2canvas(element, { scale: 2 }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth() - 20;
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                pdf.setFontSize(14);
+                pdf.setTextColor(26, 42, 108);
+                pdf.text("TRANSPARANSI LAPORAN OPERASI DAMKAR KOTA PALU", 15, 15);
+                
+                pdf.addImage(imgData, 'PNG', 10, 25, pdfWidth, pdfHeight);
+                pdf.save("Laporan_Transparan_DAMKAR.pdf");
+                
+                if(filterEl) filterEl.style.display = 'flex';
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>
